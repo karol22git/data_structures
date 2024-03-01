@@ -74,5 +74,95 @@ void MyDataStructures::BlackRedTree::FixBlackRedTree(struct node<T>* node_to_fix
     if(node_to_fix->up->colour == NodeColour::black) {
         return;
     }
-    
+    if(node_to_fix->up->up->left = node_to_fix->up) {
+        if(node_to_fix->up->up->right->colour == NodeColour::red) {
+            node_to_fix->up->colour=NodeColour::black;
+            node_to_fix->up->up->right->colour=NodeColour::black;
+            node_to_fix->up->up->colour=NodeColour::red;
+            if(node_to_fix->up->up->up == nullptr) {
+                node_to_fix->up->up->colour=NodeColour::black;
+                return;
+            }
+            else {
+                FixBlackRedTree(node_to_fix->up->up);
+                return;
+            }
+        }
+        if(node_to_fix->up->up->right->colour==NodeColour::black && node_to_fix->up->right== node_to_fix) {
+            struct node<T> *grandparent = node_to_fix->up->up;
+            struct node<T>* parent = node_to_fix->up;
+            struct node<T> *leftChild = node_to_fix->left;
+
+            
+            node_to_fix->up = grandparent;
+            grandparent->left = node_to_fix;
+
+            parent->up = node_to_fix;
+            parent->right = node_to_fix->left;
+            if(leftChild!=nullptr) {
+                leftChild->up = parent;
+            }
+            node_to_fix->left = parent;
+            FixBlackRedTree(node_to_fix->left);
+            return;
+        }
+        struct node<T>* grandgrandparent = node_to_fix->up->up->up;
+        bool left;
+        if(grandparent->left = node_to_fix->up->up) {
+            left = true;
+        }
+        else {
+            left = false;
+        }
+        struct node<T>* bRight = node_to_fix->up->right;
+
+        node_to_fix->up->right = node_to_fix->up->up;
+        node_to_fix->up->up->parent = node_to_fix->up->right;
+        node_to_fix->up->up->up = grandgrandparent;
+        if(left) {
+            grandgrandparent->left = node_to_fix->up;
+        }
+        else {
+            grandgrandparent->right = node_to_fix->up;
+        }
+
+        node_to_fix->up->right->left= bRight;
+        if(bRight!=nullptr) {
+            bRight->up = node_to_fix->up->right;
+        }
+        node_to_fix->up->colour=NodeColour::black;
+        return;
+    }
+    else {
+        if(node_to_fix->up->up->left->colour == NodeColour::red) {
+            node_to_fix->up->colour=NodeColour::black;
+            node_to_fix->up->up->left->colour=NodeColour::black;
+            node_to_fix->up->up->colour=NodeColour::red;
+            if(node_to_fix->up->up->up == nullptr) {
+                node_to_fix->up->up->colour=NodeColour::black;
+                return;
+            }
+            else {
+                FixBlackRedTree(node_to_fix->up->up);
+                return;
+            }
+        }
+        if(node_to_fix->up->up->right->colour==NodeColour::black && node_to_fix->up->left== node_to_fix) {
+            struct node<T>* grandparent = node_to_fix->up->up;
+            struct node<T>* rChild = node_to_fix->right;
+
+            grandparent->right = node_to_fix;
+            node_to_fix->right = node_to_fix->up;
+            node_to_fix->up = grandparent;
+            node_to_fix->right->up = node_to_fix;
+
+            node_to_fix->right->left = rChild;
+            if(rChild!=nullptr) {
+                rChild->up = node_to_fix->right;
+            }
+            FixBlackRedTree(node_to_fix->right);
+            return;
+        }
+        
+    }
 }
