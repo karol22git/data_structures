@@ -9,8 +9,10 @@ namespace MyAlgorithms {
     void HeapSort(T array[],int arrray_size);
     
     template <typename T>
-    void PrintArray(T array[],int array_size);
+    void QuickSort(T array[],int index, int array_size);
 
+    template <typename T>
+    void PrintArray(T array[],int array_size);
 }
 
 template <typename T>
